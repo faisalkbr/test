@@ -5,7 +5,9 @@ import DashboardLayout from './layouts/DashboardLayout';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
-import Products from './pages/Products';
+import ProductsList from './pages/products/ProductsList';
+import ProductCreate from './pages/products/ProductCreate';
+import ProductDetail from './pages/products/ProductDetail';
 import NotFound from './pages/NotFound';
 
 export default function App() {
@@ -28,7 +30,9 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="/products" element={<Products />} />
+          <Route path="/products" element={<ProductsList />} />
+          <Route path="/products/new" element={<ProductCreate />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
