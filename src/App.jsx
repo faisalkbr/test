@@ -1,30 +1,38 @@
-// src/App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Register from './pages/Register';
-import Login from './pages/Login';
+import { Toaster } from 'react-hot-toast';
+import AuthLayout from './layouts/AuthLayout';
+import DashboardLayout from './layouts/DashboardLayout';
+import ProtectedRoute from './routes/ProtectedRoute';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import Products from './pages/Products';
+import NotFound from './pages/NotFound';
 
-// Mock halaman Products
-const ProductsMock = () => (
-  <div style={{ textAlign: 'center', marginTop: '50px' }}>
-    <h2>Halaman Products (Dashboard)</h2>
-    <p> Ini adalah halaman Products Mock.</p>
-  </div>
-);
-
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
+      <Toaster position="top-center" />
+
       <Routes>
-        {/* Set rute default ke register untuk pengerjaan tugas ini */}
-        <Route path="/" element={<Navigate to="/register" replace />} />
-        
-        {/* Rute Utama */}
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/products" element={<ProductsMock />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+
+        <Route
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/products" element={<Products />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;
