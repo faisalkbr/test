@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { useProductsList, useDeleteProduct } from '../../hooks/useProducts';
+import { useProductsList } from '../../hooks/useProducts';
 import { useDebounce } from '../../hooks/useDebounce';
 import { formatCurrency } from '../../lib/formatCurrency';
 import Button from '../../components/Button';
 import EditProductModal from '../../components/products/EditProductModal';
+import DeleteProductDialog from '../../components/products/DeleteProductDialog';
 
 const PAGE_SIZE = 10;
 const SKELETON_ROWS = 5;
@@ -30,6 +30,7 @@ export default function ProductsList() {
 
   const [searchInput, setSearchInput] = useState(search);
   const [editId, setEditId] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
   const debouncedSearch = useDebounce(searchInput, 400);
 
   useEffect(() => {
@@ -54,8 +55,6 @@ export default function ProductsList() {
     sort_order: sortOrder,
   });
 
-  const deleteMutation = useDeleteProduct();
-
   const items = data?.items ?? [];
   const pagination = data?.pagination;
   const totalPages = pagination?.total_pages ?? pagination?.totalPages ?? 1;
@@ -78,15 +77,6 @@ export default function ProductsList() {
     updateParam((params) => {
       params.set(key, value);
       params.set('page', '1');
-    });
-  };
-
-  const handleDelete = (product) => {
-    if (!window.confirm(`Hapus produk "${product.name}"?`)) return;
-    deleteMutation.mutate(product.id, {
-      onSuccess: () => toast.success('Produk berhasil dihapus'),
-      onError: (err) =>
-        toast.error(err.message || 'Gagal menghapus produk'),
     });
   };
 
@@ -215,11 +205,8 @@ export default function ProductsList() {
                         <Button
                           variant="danger"
                           size="sm"
-                          onClick={() => handleDelete(product)}
-                          disabled={
-                            deleteMutation.isPending &&
-                            deleteMutation.variables === product.id
-                          }
+                          onClick={() => setDeleteTarget(product)}
+                          aria-label={`Hapus ${product.name}`}
                         >
                           Hapus
                         </Button>
@@ -262,6 +249,10 @@ export default function ProductsList() {
       </div>
 
       <EditProductModal productId={editId} onClose={() => setEditId(null)} />
+      <DeleteProductDialog
+        product={deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+      />
     </>
   );
 }

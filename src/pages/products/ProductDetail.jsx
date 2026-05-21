@@ -1,29 +1,17 @@
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { useProductDetail, useDeleteProduct } from '../../hooks/useProducts';
+import { useProductDetail } from '../../hooks/useProducts';
 import { formatCurrency } from '../../lib/formatCurrency';
 import Button from '../../components/Button';
 import EditProductModal from '../../components/products/EditProductModal';
+import DeleteProductDialog from '../../components/products/DeleteProductDialog';
 
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const { data: product, isLoading, isError, error } = useProductDetail(id);
-  const deleteMutation = useDeleteProduct();
-
-  const handleDelete = () => {
-    if (!window.confirm(`Hapus produk "${product?.name}"?`)) return;
-    deleteMutation.mutate(id, {
-      onSuccess: () => {
-        toast.success('Produk berhasil dihapus');
-        navigate('/products');
-      },
-      onError: (err) =>
-        toast.error(err.message || 'Gagal menghapus produk'),
-    });
-  };
 
   if (isLoading) {
     return (
@@ -57,10 +45,9 @@ export default function ProductDetail() {
               <Button
                 variant="danger"
                 size="sm"
-                onClick={handleDelete}
-                disabled={deleteMutation.isPending}
+                onClick={() => setDeleteOpen(true)}
               >
-                {deleteMutation.isPending ? 'Menghapus...' : 'Hapus'}
+                Hapus
               </Button>
             </div>
           </div>
@@ -85,6 +72,11 @@ export default function ProductDetail() {
       <EditProductModal
         productId={editOpen ? Number(id) : null}
         onClose={() => setEditOpen(false)}
+      />
+      <DeleteProductDialog
+        product={deleteOpen ? product : null}
+        onClose={() => setDeleteOpen(false)}
+        onSuccess={() => navigate('/products')}
       />
     </>
   );
