@@ -15,7 +15,7 @@ export const registerSchema = z.object({
   name: z
     .string()
     .min(3, { message: 'Nama minimal 3 karakter' })
-    .max(50, { message: 'Nama maksimal 50 karakter' }),
+    .max(100, { message: 'Nama maksimal 100 karakter' }),
   email: z
     .string()
     .min(1, { message: 'Email wajib diisi' })
