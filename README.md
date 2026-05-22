@@ -1,6 +1,6 @@
 # 180DC UNAIR — Internal Portal
 
-Portal internal untuk pengurus dan konsultan **180 Degrees Consulting UNAIR**, dipakai untuk mengelola katalog produk/layanan konsultasi.
+Portal internal untuk pengurus atay mungkin admin **180 Degrees Consulting UNAIR**, dipakai untuk mengelola katalog produk/layanan konsultasi.
 
 Frontend ini terhubung ke backend Vercel `https://test-180dc.vercel.app` (di-proxy via `/api`).
 
