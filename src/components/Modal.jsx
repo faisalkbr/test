@@ -1,6 +1,16 @@
 import { useEffect, useId, useRef } from 'react';
+import { Icons } from './icons';
 
-export default function Modal({ open, onClose, title, children }) {
+export default function Modal({
+  open,
+  onClose,
+  title,
+  subtitle,
+  children,
+  footer,
+  width = 480,
+  dismissible = true,
+}) {
   const dialogRef = useRef(null);
   const titleId = useId();
 
@@ -12,9 +22,14 @@ export default function Modal({ open, onClose, title, children }) {
   }, [open]);
 
   const handleBackdropClick = (event) => {
+    if (!dismissible) return;
     if (event.target === dialogRef.current) {
       dialogRef.current.close();
     }
+  };
+
+  const handleCancel = (event) => {
+    if (!dismissible) event.preventDefault();
   };
 
   return (
@@ -22,27 +37,41 @@ export default function Modal({ open, onClose, title, children }) {
       ref={dialogRef}
       onClose={onClose}
       onClick={handleBackdropClick}
+      onCancel={handleCancel}
       aria-labelledby={title ? titleId : undefined}
-      className="rounded-lg shadow-xl p-0 backdrop:bg-black/50 w-full max-w-md m-auto open:flex open:flex-col"
+      className="p-0 m-auto rounded-[14px] border border-ink-150 bg-paper shadow-pop max-w-[calc(100vw-32px)] open:animate-pop"
+      style={{ width }}
     >
-      <div className="bg-white rounded-lg">
-        {title && (
-          <header className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-            <h3 id={titleId} className="text-lg font-semibold text-gray-900">
-              {title}
-            </h3>
+      {(title || subtitle || dismissible) && (
+        <header className="flex items-start gap-3 px-5 py-4 border-b border-ink-100">
+          <div className="flex-1">
+            {title && (
+              <div id={titleId} className="text-[15.5px] font-semibold text-ink-900">
+                {title}
+              </div>
+            )}
+            {subtitle && (
+              <div className="text-[13px] text-ink-500 mt-0.5">{subtitle}</div>
+            )}
+          </div>
+          {dismissible && (
             <button
               type="button"
               onClick={() => dialogRef.current?.close()}
               aria-label="Tutup"
-              className="text-gray-400 hover:text-gray-600 text-2xl leading-none cursor-pointer"
+              className="inline-flex p-1 rounded text-ink-500 hover:bg-ink-100 hover:text-ink-900 cursor-pointer"
             >
-              &times;
+              <Icons.close size={18} />
             </button>
-          </header>
-        )}
-        <div className="px-6 py-6">{children}</div>
-      </div>
+          )}
+        </header>
+      )}
+      <div className="px-5 py-5">{children}</div>
+      {footer && (
+        <footer className="flex justify-end gap-2 px-5 py-3.5 border-t border-ink-100 bg-ink-50">
+          {footer}
+        </footer>
+      )}
     </dialog>
   );
 }
