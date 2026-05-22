@@ -1,4 +1,3 @@
-// src/schemas/authSchema.js
 import { z } from 'zod';
 
 export const loginSchema = z.object({
@@ -27,7 +26,6 @@ export const registerSchema = z.object({
     .string()
     .min(1, { message: 'Konfirmasi password wajib diisi' }),
 }).refine((data) => data.password === data.confirmPassword, {
-  // Mengecek apakah password dan konfirmasi sama
   message: "Password dan Konfirmasi Password tidak cocok",
-  path: ["confirmPassword"], // Menargetkan error ini spesifik ke field confirmPassword
+  path: ["confirmPassword"],
 });

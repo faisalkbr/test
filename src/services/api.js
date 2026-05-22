@@ -30,7 +30,7 @@ export const apiFetch = async (endpoint, options = {}) => {
   try {
     data = await response.json();
   } catch {
-    // response without body — keep data as null
+  
   }
 
   if (response.status === 401 && !endpoint.includes('/auth/login')) {

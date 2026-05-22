@@ -1,4 +1,3 @@
-// src/hooks/useAuthMutations.js
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -10,7 +9,6 @@ export const useRegisterMutation = () => {
   const navigate = useNavigate();
 
   return useMutation({
-    // V5 syntax: mutationFn wajib menerima satu argumen objek/variabel
     mutationFn: async (userData) => {
       return await apiFetch('/auth/register', {
         method: 'POST',
@@ -19,7 +17,7 @@ export const useRegisterMutation = () => {
     },
     onSuccess: () => {
       toast.success('Registrasi berhasil! Silakan login.');
-      navigate('/login'); // Lempar ke halaman login setelah sukses
+      navigate('/login');
     },
     onError: (error) => {
       toast.error(error.message || 'Gagal melakukan registrasi.');
@@ -40,20 +38,18 @@ export const useLoginMutation = () => {
       });
     },
     onSuccess: (data) => {
-      // Sesuai struktur response JSON yang kita bedah sebelumnya
       const token = data?.data?.access_token;
       const user = data?.data?.user;
 
       if (token) {
-        setCredentials(token, user); // Simpan ke Zustand & LocalStorage
+        setCredentials(token, user);
         toast.success('Login berhasil!');
-        navigate('/products'); // Lempar ke dashboard
+        navigate('/products');
       } else {
         toast.error('Gagal mengambil token dari server.');
       }
     },
     onError: (error) => {
-      // Jika status 401, tampilkan error spesifik sesuai test case
       if (error.status === 401) {
         toast.error('Email atau password salah');
       } else {
