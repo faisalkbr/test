@@ -5,6 +5,7 @@ import { loginSchema } from '../../schemas/authSchema';
 import { useLoginMutation } from '../../hooks/useAuthMutations';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import { Icons } from '../../components/icons';
 
 export default function Login() {
   const { mutate: login, isPending } = useLoginMutation();
@@ -20,16 +21,23 @@ export default function Login() {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-gray-900 mb-6 text-center">
-        Masuk ke Akun Anda
+      <span className="eyebrow">Sign in</span>
+      <h2
+        className="mt-1.5"
+        style={{ fontSize: 28, fontWeight: 500, letterSpacing: '-0.02em' }}
+      >
+        Masuk ke akun Anda
       </h2>
+      <p className="text-ink-500 text-sm mt-1.5 mb-7">
+        Gunakan Akun yang sudah diregister untuk melanjutkan.
+      </p>
 
-      <form onSubmit={handleSubmit((data) => login(data))} className="space-y-5">
+      <form onSubmit={handleSubmit((data) => login(data))} className="flex flex-col gap-4">
         <Input
           label="Email"
           type="email"
           autoComplete="email"
-          placeholder="admin@180dc.com"
+          placeholder="nama@180dc.com"
           disabled={isPending}
           error={errors.email?.message}
           {...register('email')}
@@ -45,16 +53,48 @@ export default function Login() {
           {...register('password')}
         />
 
-        <Button type="submit" fullWidth disabled={isPending}>
-          {isPending ? 'Memverifikasi...' : 'Masuk'}
+        <div className="flex items-center justify-between -mt-1">
+          <label className="inline-flex items-center gap-2 text-[13px] text-ink-700 cursor-pointer">
+            <input
+              type="checkbox"
+              defaultChecked
+              style={{ accentColor: 'var(--color-brand-600)' }}
+            />
+            Ingat saya
+          </label>
+          <a
+            href="#"
+            onClick={(e) => e.preventDefault()}
+            className="text-[13px] text-ink-700 no-underline border-b border-dotted border-ink-300"
+          >
+            Lupa password?
+          </a>
+        </div>
+
+        <Button type="submit" size="lg" fullWidth loading={isPending} className="mt-1">
+          {isPending ? 'Memverifikasi…' : 'Masuk ke portal'}
         </Button>
       </form>
 
-      <div className="mt-6 text-center text-sm text-gray-600">
+      <div className="mt-[18px] text-[13.5px] text-ink-500 text-center">
         Belum punya akun?{' '}
-        <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">
-          Daftar sekarang
+        <Link
+          to="/register"
+          className="font-medium text-ink-900 no-underline border-b border-ink-300"
+        >
+          Register
         </Link>
+      </div>
+
+      <div className="mt-9 pt-[18px] border-t border-ink-100 flex justify-between items-center text-xs text-ink-400">
+        <span>Butuh bantuan?</span>
+        <a
+          href="#"
+          onClick={(e) => e.preventDefault()}
+          className="inline-flex items-center gap-1.5 text-ink-700 no-underline"
+        >
+          <Icons.help size={14} /> Hubungi admin
+        </a>
       </div>
     </div>
   );
