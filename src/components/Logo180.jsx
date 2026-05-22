@@ -9,7 +9,7 @@ export default function Logo180({ size = 28, light = false }) {
     borderRadius: Math.round((size + 6) * 0.22),
     background: '#0A0B0A url(/assets/logo-180dc.jpg) no-repeat',
     backgroundSize: 'auto 240%',
-    backgroundPosition: '50% 18%',
+    backgroundPosition: '50% 25%',
     boxShadow: light
       ? '0 0 0 1px rgba(255,255,255,0.06)'
       : '0 1px 2px rgba(10,11,10,0.08), 0 0 0 1px rgba(10,11,10,0.05)',

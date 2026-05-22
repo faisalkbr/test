@@ -128,7 +128,7 @@ export default function DashboardLayout() {
               {user?.name || 'Pengguna'}
             </div>
             <div className="font-mono text-[10.5px] text-white/50 tracking-[0.04em]">
-              Pengurus · UNAIR
+              Users · UNAIR
             </div>
           </div>
           <button

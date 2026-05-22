@@ -402,7 +402,7 @@ export default function ProductsList() {
       <PageHeader
         breadcrumb={[{ label: 'Workspace' }, { label: 'Produk & Layanan' }]}
         title="Produk & Layanan"
-        description="Katalog layanan konsultasi 180DC UNAIR yang ditawarkan kepada mitra. Kelola harga dan kemas penawaran."
+        description="Katalog layanan konsultasi 180DC UNAIR yang ditawarkan kepada mitra. Kelola harga dan sesuaikan penawaran."
         actions={
           <Link to="/products/new">
             <Button variant="accent" leading={<Icons.plus size={14} />}>
