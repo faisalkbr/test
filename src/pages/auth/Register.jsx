@@ -1,10 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'react-router-dom';
-import { registerSchema } from '../../schemas/authSchema';
-import { useRegisterMutation } from '../../hooks/useAuthMutations';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import { registerSchema } from '@/schemas/authSchema';
+import { useRegisterMutation } from '@/hooks/useAuthMutations';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
+import { cn } from '@/lib/cn';
 
 const STRENGTH_LABEL = ['Terlalu lemah', 'Lemah', 'Cukup', 'Kuat', 'Sangat kuat'];
 
@@ -33,16 +34,13 @@ export default function Register() {
 
   const password = watch('password') ?? '';
   const strength = computeStrength(password);
-  const strengthColor =
-    strength >= 3 ? 'var(--color-brand-500)' : 'var(--color-amber-700)';
+  const strengthBarColor =
+    strength >= 3 ? 'bg-brand-500' : 'bg-amber-700';
 
   return (
     <div>
       <span className="eyebrow">New account</span>
-      <h2
-        className="mt-1.5"
-        style={{ fontSize: 28, fontWeight: 500, letterSpacing: '-0.02em' }}
-      >
+      <h2 className="mt-1.5 text-[28px] font-medium tracking-[-0.02em]">
         Register Akun Anda
       </h2>
       <p className="text-ink-500 text-sm mt-1.5 mb-6">
@@ -50,7 +48,7 @@ export default function Register() {
       </p>
 
       <form
-        onSubmit={handleSubmit((data) => registerUser(data))}
+        onSubmit={handleSubmit(registerUser)}
         className="flex flex-col gap-3.5"
       >
         <Input
@@ -88,11 +86,10 @@ export default function Register() {
                 {[0, 1, 2, 3].map((i) => (
                   <div
                     key={i}
-                    className="h-1 rounded-full transition-colors"
-                    style={{
-                      background:
-                        i < strength ? strengthColor : 'var(--color-ink-150)',
-                    }}
+                    className={cn(
+                      'h-1 rounded-full transition-colors',
+                      i < strength ? strengthBarColor : 'bg-ink-150',
+                    )}
                   />
                 ))}
               </div>
@@ -117,18 +114,23 @@ export default function Register() {
           <input
             type="checkbox"
             defaultChecked
-            className="mt-0.5"
-            style={{ accentColor: 'var(--color-brand-600)' }}
+            className="mt-0.5 accent-brand-600"
           />
           <span>
             Saya menyetujui{' '}
-            <a href="#" onClick={(e) => e.preventDefault()} className="text-ink-900">
+            <button
+              type="button"
+              className="text-ink-900 bg-transparent p-0 cursor-pointer underline-offset-2"
+            >
               Pedoman Pengurus
-            </a>{' '}
+            </button>{' '}
             dan{' '}
-            <a href="#" onClick={(e) => e.preventDefault()} className="text-ink-900">
+            <button
+              type="button"
+              className="text-ink-900 bg-transparent p-0 cursor-pointer underline-offset-2"
+            >
               Kebijakan Privasi
-            </a>{' '}
+            </button>{' '}
             180DC UNAIR.
           </span>
         </label>

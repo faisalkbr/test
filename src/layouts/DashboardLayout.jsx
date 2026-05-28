@@ -1,8 +1,9 @@
-import { Navigate, NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../store/useAuthStore';
-import Logo180 from '../components/Logo180';
-import Avatar from '../components/Avatar';
-import { Icons } from '../components/icons';
+import { NavLink, Outlet } from 'react-router-dom';
+import { useAuthStore } from '@/store/useAuthStore';
+import { cn } from '@/lib/cn';
+import Logo180 from '@/components/Logo180';
+import Avatar from '@/components/Avatar';
+import { Icons } from '@/components/icons';
 
 function NavItem({ to, icon, label, badge, disabled, hint }) {
   if (disabled) {
@@ -22,13 +23,12 @@ function NavItem({ to, icon, label, badge, disabled, hint }) {
       to={to}
       end
       className={({ isActive }) =>
-        [
-          'flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13.5px] tracking-[-0.005em] transition-colors',
-          'border-l-2',
+        cn(
+          'flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13.5px] tracking-[-0.005em] transition-colors border-l-2',
           isActive
             ? 'bg-brand-500/12 text-brand-500 border-brand-500 font-medium'
             : 'border-transparent text-white/75 hover:bg-white/5',
-        ].join(' ')
+        )
       }
     >
       {({ isActive }) => (
@@ -37,13 +37,12 @@ function NavItem({ to, icon, label, badge, disabled, hint }) {
           <span className="flex-1">{label}</span>
           {badge && (
             <span
-              className="font-mono text-[10.5px] px-1.5 py-0.5 rounded-md"
-              style={{
-                background: isActive
-                  ? 'rgba(93,187,45,0.18)'
-                  : 'rgba(255,255,255,0.08)',
-                color: isActive ? 'var(--color-brand-500)' : 'rgba(255,255,255,0.7)',
-              }}
+              className={cn(
+                'font-mono text-[10.5px] px-1.5 py-0.5 rounded-md',
+                isActive
+                  ? 'bg-brand-500/18 text-brand-500'
+                  : 'bg-white/8 text-white/70',
+              )}
             >
               {badge}
             </span>
@@ -55,17 +54,8 @@ function NavItem({ to, icon, label, badge, disabled, hint }) {
 }
 
 export default function DashboardLayout() {
-  const token = useAuthStore((state) => state.token);
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
-  const navigate = useNavigate();
-
-  if (!token) return <Navigate to="/login" replace />;
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login', { replace: true });
-  };
 
   return (
     <div className="min-h-screen grid grid-cols-[248px_1fr]">
@@ -77,8 +67,7 @@ export default function DashboardLayout() {
         <div className="border-t border-white/8 -mx-1.5 mb-3.5" />
 
         <span
-          className="eyebrow px-2 pb-2"
-          style={{ color: 'rgba(255,255,255,0.4)' }}
+          className="eyebrow px-2 pb-2 text-white/40"
         >
           Workspace
         </span>
@@ -109,12 +98,7 @@ export default function DashboardLayout() {
         </nav>
 
         <div className="mt-7">
-          <span
-            className="eyebrow px-2 pb-2"
-            style={{ color: 'rgba(255,255,255,0.4)' }}
-          >
-            Akun
-          </span>
+          <span className="eyebrow px-2 pb-2 text-white/40">Akun</span>
           <nav className="flex flex-col gap-0.5">
             <NavItem disabled icon={<Icons.bell size={16} />} label="Notifikasi" />
             <NavItem disabled icon={<Icons.settings size={16} />} label="Pengaturan" />
@@ -132,7 +116,7 @@ export default function DashboardLayout() {
             </div>
           </div>
           <button
-            onClick={handleLogout}
+            onClick={logout}
             aria-label="Keluar"
             title="Keluar"
             className="inline-flex p-1.5 rounded-lg border border-white/10 text-white/60 hover:bg-white/6 hover:text-white cursor-pointer transition-colors"

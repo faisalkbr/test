@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'react-router-dom';
-import { loginSchema } from '../../schemas/authSchema';
-import { useLoginMutation } from '../../hooks/useAuthMutations';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import { Icons } from '../../components/icons';
+import { loginSchema } from '@/schemas/authSchema';
+import { useLoginMutation } from '@/hooks/useAuthMutations';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
+import { Icons } from '@/components/icons';
 
 export default function Login() {
   const { mutate: login, isPending } = useLoginMutation();
@@ -22,17 +22,14 @@ export default function Login() {
   return (
     <div>
       <span className="eyebrow">Sign in</span>
-      <h2
-        className="mt-1.5"
-        style={{ fontSize: 28, fontWeight: 500, letterSpacing: '-0.02em' }}
-      >
+      <h2 className="mt-1.5 text-[28px] font-medium tracking-[-0.02em]">
         Masuk ke akun Anda
       </h2>
       <p className="text-ink-500 text-sm mt-1.5 mb-7">
         Gunakan Akun yang sudah diregister untuk melanjutkan.
       </p>
 
-      <form onSubmit={handleSubmit((data) => login(data))} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit(login)} className="flex flex-col gap-4">
         <Input
           label="Email"
           type="email"
@@ -58,17 +55,16 @@ export default function Login() {
             <input
               type="checkbox"
               defaultChecked
-              style={{ accentColor: 'var(--color-brand-600)' }}
+              className="accent-brand-600"
             />
             Ingat saya
           </label>
-          <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            className="text-[13px] text-ink-700 no-underline border-b border-dotted border-ink-300"
+          <button
+            type="button"
+            className="text-[13px] text-ink-700 border-b border-dotted border-ink-300 cursor-pointer bg-transparent p-0"
           >
             Lupa password?
-          </a>
+          </button>
         </div>
 
         <Button type="submit" size="lg" fullWidth loading={isPending} className="mt-1">
@@ -88,13 +84,12 @@ export default function Login() {
 
       <div className="mt-9 pt-[18px] border-t border-ink-100 flex justify-between items-center text-xs text-ink-400">
         <span>Butuh bantuan?</span>
-        <a
-          href="#"
-          onClick={(e) => e.preventDefault()}
-          className="inline-flex items-center gap-1.5 text-ink-700 no-underline"
+        <button
+          type="button"
+          className="inline-flex items-center gap-1.5 text-ink-700 cursor-pointer bg-transparent p-0"
         >
           <Icons.help size={14} /> Hubungi admin
-        </a>
+        </button>
       </div>
     </div>
   );

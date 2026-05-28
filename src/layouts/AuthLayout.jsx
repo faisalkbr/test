@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuthStore } from '../store/useAuthStore';
-import Logo180 from '../components/Logo180';
+import { useAuthStore } from '@/store/useAuthStore';
+import Logo180 from '@/components/Logo180';
 
 const STATS = [
   ['12', 'Engagements'],
@@ -26,28 +26,16 @@ export default function AuthLayout() {
         {/* Decorative sphere */}
         <div
           aria-hidden
-          className="absolute pointer-events-none"
+          className="absolute pointer-events-none -right-40 -bottom-40 w-[560px] h-[560px] rounded-full blur-[2px]"
           style={{
-            right: -160,
-            bottom: -160,
-            width: 560,
-            height: 560,
-            borderRadius: '50%',
             background:
               'radial-gradient(circle at 30% 30%, rgba(93,187,45,0.85) 0%, rgba(93,187,45,0.05) 55%, transparent 70%)',
-            filter: 'blur(2px)',
           }}
         />
         <div
           aria-hidden
-          className="absolute pointer-events-none"
+          className="absolute pointer-events-none right-10 bottom-10 w-[360px] h-[360px] rounded-full border border-white/8"
           style={{
-            right: 40,
-            bottom: 40,
-            width: 360,
-            height: 360,
-            borderRadius: '50%',
-            border: '1px solid rgba(255,255,255,0.07)',
             boxShadow:
               'inset 0 0 0 60px rgba(255,255,255,0.025), inset 0 0 0 120px rgba(255,255,255,0.02)',
           }}
@@ -58,23 +46,10 @@ export default function AuthLayout() {
         </div>
 
         <div className="relative z-10 mt-auto max-w-[420px]">
-          <span className="eyebrow" style={{ color: 'var(--color-brand-500)' }}>
-            Internal Portal
-          </span>
-          <h1
-            className="text-white"
-            style={{
-              fontSize: 42,
-              lineHeight: 1.08,
-              fontWeight: 500,
-              letterSpacing: '-0.025em',
-              margin: '14px 0 18px',
-            }}
-          >
+          <span className="eyebrow text-brand-500">Internal Portal</span>
+          <h1 className="text-white text-[42px] leading-[1.08] font-medium tracking-[-0.025em] mt-[14px] mb-[18px]">
             Turning ideas{' '}
-            <span className="font-serif" style={{ color: 'var(--color-brand-500)' }}>
-              180°
-            </span>{' '}
+            <span className="font-serif text-brand-500">180°</span>{' '}
             into impact, together.
           </h1>
           <p className="text-white/65 text-[15px] leading-[1.55] m-0">{intro}</p>
@@ -82,15 +57,10 @@ export default function AuthLayout() {
           <div className="mt-9 grid grid-cols-3 gap-6">
             {STATS.map(([n, l]) => (
               <div key={l}>
-                <div
-                  className="text-white"
-                  style={{ fontSize: 28, fontWeight: 500, letterSpacing: '-0.02em' }}
-                >
+                <div className="text-white text-[28px] font-medium tracking-[-0.02em]">
                   {n}
                 </div>
-                <div className="eyebrow mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  {l}
-                </div>
+                <div className="eyebrow mt-0.5 text-white/50">{l}</div>
               </div>
             ))}
           </div>

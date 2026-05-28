@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import Logo180 from '../components/Logo180';
-import Button from '../components/Button';
-import { Icons } from '../components/icons';
+import Logo180 from '@/components/Logo180';
+import Button from '@/components/Button';
+import { Icons } from '@/components/icons';
 
 export default function NotFound() {
   return (
@@ -11,25 +11,11 @@ export default function NotFound() {
       </div>
 
       <div className="flex flex-col items-center max-w-[640px]">
-        <div
-          className="font-mono text-[13px] text-brand-700 mb-4"
-          style={{ letterSpacing: '0.12em' }}
-        >
+        <div className="font-mono text-[13px] text-brand-700 mb-4 tracking-[0.12em]">
           ERROR · 404
         </div>
-        <h1
-          className="m-0 text-ink-950"
-          style={{
-            fontSize: 64,
-            fontWeight: 500,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.05,
-          }}
-        >
-          Halaman{' '}
-          <span className="font-serif" style={{ fontWeight: 400 }}>
-            tidak ditemukan
-          </span>
+        <h1 className="m-0 text-ink-950 text-[64px] font-medium tracking-[-0.03em] leading-[1.05]">
+          Halaman <span className="font-serif font-normal">tidak ditemukan</span>
         </h1>
         <p className="text-[15px] text-ink-500 max-w-[460px] mt-[18px] mb-7 leading-[1.55]">
           Halaman yang Anda cari mungkin telah dipindahkan atau tidak pernah

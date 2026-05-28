@@ -1,4 +1,4 @@
-import { useAuthStore } from '../store/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 
@@ -11,7 +11,18 @@ export class ApiError extends Error {
   }
 }
 
-export const apiFetch = async (endpoint, options = {}) => {
+const parseBody = async (response) => {
+  if (response.status === 204) return null;
+  const contentType = response.headers.get('content-type') || '';
+  if (!contentType.includes('application/json')) return null;
+  try {
+    return await response.json();
+  } catch {
+    return null;
+  }
+};
+
+export const apiFetch = async (endpoint, { signal, ...options } = {}) => {
   const { token } = useAuthStore.getState();
 
   const headers = {
@@ -24,14 +35,13 @@ export const apiFetch = async (endpoint, options = {}) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, { ...options, headers });
+  const response = await fetch(`${BASE_URL}${endpoint}`, {
+    ...options,
+    headers,
+    signal,
+  });
 
-  let data = null;
-  try {
-    data = await response.json();
-  } catch {
-  
-  }
+  const data = await parseBody(response);
 
   if (response.status === 401 && !endpoint.includes('/auth/login')) {
     useAuthStore.getState().logout();
