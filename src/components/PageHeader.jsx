@@ -28,10 +28,7 @@ export default function PageHeader({ breadcrumb, title, description, actions }) 
       )}
       <div className="flex items-end justify-between gap-4 flex-wrap">
         <div>
-          <h1
-            className="m-0 text-ink-950"
-            style={{ fontSize: 26, fontWeight: 500, letterSpacing: '-0.02em' }}
-          >
+          <h1 className="m-0 text-ink-950 text-[26px] font-medium tracking-[-0.02em]">
             {title}
           </h1>
           {description && (

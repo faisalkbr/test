@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand */
   --color-brand-50: #f2fbe9;
   --color-brand-100: #e1f5cd;
   --color-brand-200: #c5eba1;
@@ -9,7 +8,6 @@
   --color-brand-600: #4fa322;
   --color-brand-700: #3f8419;
 
-  /* Ink (warm neutrals) */
   --color-ink-50: #f6f5f0;
   --color-ink-100: #efeee9;
   --color-ink-150: #e6e5df;
@@ -22,84 +20,107 @@
   --color-ink-900: #131412;
   --color-ink-950: #0a0b0a;
 
-  /* Surfaces */
   --color-bg: #fafaf7;
   --color-paper: #ffffff;
 
-  /* Semantic */
   --color-danger-50: #fbeeec;
   --color-danger-600: #c73a2e;
   --color-danger-700: #a82e24;
   --color-amber-50: #fbf5e6;
   --color-amber-700: #946a12;
 
-  /* Typography */
   --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
   --font-serif: "Instrument Serif", "Times New Roman", serif;
 
-  /* Radius */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
   --radius-xl: 20px;
+
+  --animate-fadein: fadein 0.3s ease-out;
+  --animate-pop: pop 0.16s ease-out;
+  --animate-overlay: overlay 0.14s ease-out;
+
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes overlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 }
 
-:root {
-  color-scheme: light;
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    background: var(--color-bg);
+    color: var(--color-ink-900);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 14px;
+    line-height: 1.45;
+    letter-spacing: -0.005em;
+  }
+
+  ::selection {
+    background: var(--color-brand-200);
+    color: var(--color-ink-950);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-200);
+    border-radius: 999px;
+    border: 2px solid var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink-300);
+  }
+
+  dialog::backdrop {
+    background: rgba(10, 11, 10, 0.45);
+    backdrop-filter: blur(2px);
+  }
+  dialog[open] {
+    animation: var(--animate-pop);
+  }
 }
 
-html,
-body,
-#root {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-feature-settings: "ss01", "cv11";
-  background: var(--color-bg);
-  color: var(--color-ink-900);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-size: 14px;
-  line-height: 1.45;
-  letter-spacing: -0.005em;
-}
-
-::selection {
-  background: var(--color-brand-200);
-  color: var(--color-ink-950);
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-ink-200);
-  border-radius: 999px;
-  border: 2px solid var(--color-bg);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-ink-300);
-}
-
-/* Reusable utility classes */
-.font-mono {
+@utility font-mono {
   font-family: var(--font-mono);
   font-feature-settings: "ss01";
 }
-.font-serif {
+
+@utility font-serif {
   font-family: var(--font-serif);
   font-style: italic;
 }
 
-.eyebrow {
+@utility eyebrow {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.12em;
@@ -108,46 +129,10 @@ body {
   font-weight: 500;
 }
 
-/* Shadows reused across UI */
 @utility shadow-card {
   box-shadow: 0 1px 2px rgba(10, 11, 10, 0.05), 0 1px 1px rgba(10, 11, 10, 0.03);
 }
+
 @utility shadow-pop {
   box-shadow: 0 24px 60px -16px rgba(10, 11, 10, 0.25), 0 6px 18px -6px rgba(10, 11, 10, 0.12);
-}
-
-/* Animations */
-@keyframes fadein {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: none; }
-}
-@keyframes pop {
-  from { opacity: 0; transform: scale(0.97); }
-  to { opacity: 1; transform: none; }
-}
-@keyframes overlay {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.animate-fadein {
-  animation: fadein 0.3s ease-out;
-}
-.animate-pop {
-  animation: pop 0.16s ease-out;
-}
-.animate-overlay {
-  animation: overlay 0.14s ease-out;
-}
-
-/* Native <dialog> backdrop styling */
-dialog::backdrop {
-  background: rgba(10, 11, 10, 0.45);
-  backdrop-filter: blur(2px);
-}
-dialog[open] {
-  animation: pop 0.16s ease-out;
 }

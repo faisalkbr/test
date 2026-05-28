@@ -1,4 +1,5 @@
 import { Spinner } from './icons';
+import { cn } from '@/lib/cn';
 
 const SIZE = {
   sm: 'h-[30px] px-2.5 text-[12.5px] gap-1.5 rounded-md',
@@ -21,6 +22,21 @@ const VARIANT = {
     'bg-danger-600 text-white border border-danger-600 hover:bg-danger-700 shadow-[0_1px_0_rgba(10,11,10,0.04)]',
 };
 
+/**
+ * Tombol primer aplikasi. Semua tombol interaktif sebaiknya pakai komponen ini.
+ *
+ * @param {object} props
+ * @param {'primary'|'accent'|'secondary'|'ghost'|'danger'|'dangerSolid'} [props.variant='primary']
+ * @param {'sm'|'md'|'lg'} [props.size='md']
+ * @param {boolean} [props.fullWidth=false] - Lebar penuh container parent.
+ * @param {'button'|'submit'|'reset'} [props.type='button']
+ * @param {React.ReactNode} [props.leading] - Ikon sebelum teks.
+ * @param {React.ReactNode} [props.trailing] - Ikon setelah teks.
+ * @param {boolean} [props.loading=false] - Tampilkan spinner & disable tombol.
+ * @param {boolean} [props.disabled]
+ * @param {string} [props.className]
+ * @param {React.ReactNode} props.children
+ */
 export default function Button({
   variant = 'primary',
   size = 'md',
@@ -35,18 +51,16 @@ export default function Button({
   ...props
 }) {
   const isDisabled = disabled || loading;
-  const classes = [
+  const classes = cn(
     'inline-flex items-center justify-center font-medium whitespace-nowrap',
     'transition-colors duration-150 cursor-pointer select-none',
     'focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
     'disabled:cursor-not-allowed disabled:opacity-55',
     SIZE[size],
     VARIANT[variant],
-    fullWidth ? 'w-full' : '',
+    fullWidth && 'w-full',
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
 
   return (
     <button type={type} disabled={isDisabled} className={classes} {...props}>
