@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useProductDetail } from '../../hooks/useProducts';
-import { formatCurrency } from '../../lib/formatCurrency';
-import PageHeader from '../../components/PageHeader';
-import Button from '../../components/Button';
-import Avatar from '../../components/Avatar';
-import { Icons } from '../../components/icons';
-import EditProductModal from '../../components/products/EditProductModal';
-import DeleteProductDialog from '../../components/products/DeleteProductDialog';
+import { useProductDetail } from '@/hooks/useProducts';
+import { formatCurrency } from '@/lib/formatCurrency';
+import PageHeader from '@/components/PageHeader';
+import Button from '@/components/Button';
+import Avatar from '@/components/Avatar';
+import { Icons } from '@/components/icons';
+import EditProductModal from '@/components/products/EditProductModal';
+import DeleteProductDialog from '@/components/products/DeleteProductDialog';
 
 function relativeDate(iso) {
   if (!iso) return '—';
@@ -140,26 +140,9 @@ export default function ProductDetail() {
       />
 
       <div className="px-10 pt-5 pb-10 grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-4">
-        {/* Hero card */}
-        <div className="bg-paper border border-ink-150 rounded-[14px] overflow-hidden shadow-[0_1px_0_rgba(10,11,10,0.04)]">
-          <div
-            className="h-[200px] relative border-b border-ink-100"
-            style={{
-              background:
-                'linear-gradient(135deg, var(--color-brand-50) 0%, var(--color-paper) 80%)',
-            }}
-          >
-            <span
-              className="font-mono absolute font-semibold text-brand-700"
-              style={{
-                right: -20,
-                bottom: -40,
-                fontSize: 220,
-                opacity: 0.18,
-                letterSpacing: '-0.05em',
-                lineHeight: 1,
-              }}
-            >
+        <div className="bg-paper border border-ink-150 rounded-[14px] overflow-hidden shadow-card">
+          <div className="h-[200px] relative border-b border-ink-100 bg-gradient-to-br from-brand-50 to-paper">
+            <span className="font-mono absolute font-semibold text-brand-700 -right-5 -bottom-10 text-[220px] opacity-[0.18] tracking-[-0.05em] leading-none">
               {idTail}
             </span>
             <div className="absolute top-[18px] left-[22px] flex gap-2">
@@ -174,10 +157,7 @@ export default function ProductDetail() {
 
           <div className="px-7 py-6">
             <span className="eyebrow">Produk Konsultasi</span>
-            <h2
-              className="m-0 mt-1.5 mb-2.5"
-              style={{ fontSize: 28, fontWeight: 500, letterSpacing: '-0.02em' }}
-            >
+            <h2 className="m-0 mt-1.5 mb-2.5 text-[28px] font-medium tracking-[-0.02em]">
               {product.name}
             </h2>
             <p className="m-0 text-ink-500 text-[14.5px] leading-[1.6] max-w-[580px]">
@@ -206,7 +186,7 @@ export default function ProductDetail() {
 
         {/* Side panel */}
         <div className="flex flex-col gap-4">
-          <div className="bg-paper border border-ink-150 rounded-[14px] p-5 shadow-[0_1px_0_rgba(10,11,10,0.04)]">
+          <div className="bg-paper border border-ink-150 rounded-[14px] p-5 shadow-card">
             <span className="eyebrow">Metadata</span>
             <div className="mt-3 flex flex-col gap-3">
               <MetaRow label="Dibuat">
@@ -230,19 +210,12 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          <div className="bg-paper border border-ink-150 rounded-[14px] p-5 shadow-[0_1px_0_rgba(10,11,10,0.04)]">
+          <div className="bg-paper border border-ink-150 rounded-[14px] p-5 shadow-card">
             <span className="eyebrow">Aktivitas</span>
             <div className="mt-3.5 relative">
               <div className="absolute left-[7px] top-1.5 bottom-1.5 w-px bg-ink-150" />
               <div className="pl-[22px] pb-3.5 relative">
-                <span
-                  className="absolute w-2 h-2 rounded-full bg-brand-500 border-2 border-paper"
-                  style={{
-                    left: 4,
-                    top: 5,
-                    boxShadow: '0 0 0 1px var(--color-ink-150)',
-                  }}
-                />
+                <span className="absolute left-1 top-[5px] w-2 h-2 rounded-full bg-brand-500 border-2 border-paper shadow-[0_0_0_1px_var(--color-ink-150)]" />
                 <div className="text-[13px] font-medium text-ink-900">
                   Produk dibuat
                 </div>

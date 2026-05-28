@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import Modal from '../Modal';
-import Button from '../Button';
-import { Icons } from '../icons';
-import { useDeleteProduct } from '../../hooks/useProducts';
-import { formatCurrency } from '../../lib/formatCurrency';
+import Modal from '@/components/Modal';
+import Button from '@/components/Button';
+import { Icons } from '@/components/icons';
+import { useDeleteProduct } from '@/hooks/useProducts';
+import { formatCurrency } from '@/lib/formatCurrency';
 
 const formatError = (error) => {
   if (!error) return null;

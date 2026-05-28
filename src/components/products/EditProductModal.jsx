@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Modal from '../Modal';
-import Input from '../Input';
-import Button from '../Button';
-import { Icons } from '../icons';
-import { productSchema } from '../../schemas/productSchema';
-import { useProductDetail, useUpdateProduct } from '../../hooks/useProducts';
-import { formatCurrency } from '../../lib/formatCurrency';
+import Modal from '@/components/Modal';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
+import { Icons } from '@/components/icons';
+import { productSchema } from '@/schemas/productSchema';
+import { useProductDetail, useUpdateProduct } from '@/hooks/useProducts';
+import { formatCurrency } from '@/lib/formatCurrency';
 
 const formatError = (error) => {
   if (!error) return null;
@@ -18,6 +18,7 @@ const formatError = (error) => {
 };
 
 function EditForm({ product, onClose, mutation }) {
+  const productId = product?.id;
   const {
     register,
     handleSubmit,
@@ -43,12 +44,15 @@ function EditForm({ product, onClose, mutation }) {
       onClose();
       return;
     }
-    mutation.mutate(patch, {
-      onSuccess: () => {
-        toast.success('Perubahan tersimpan');
-        onClose();
+    mutation.mutate(
+      { id: productId, data: patch },
+      {
+        onSuccess: () => {
+          toast.success('Perubahan tersimpan');
+          onClose();
+        },
       },
-    });
+    );
   };
 
   const errorMessage = formatError(mutation.error);
@@ -96,12 +100,12 @@ function EditForm({ product, onClose, mutation }) {
 export default function EditProductModal({ productId, onClose }) {
   const open = productId != null;
   const detailQuery = useProductDetail(productId);
-  const updateMutation = useUpdateProduct(productId);
+  const updateMutation = useUpdateProduct();
+  const { reset: resetMutation } = updateMutation;
 
   useEffect(() => {
-    if (open) updateMutation.reset();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productId, open]);
+    if (open) resetMutation();
+  }, [productId, open, resetMutation]);
 
   const product = detailQuery.data;
   const subtitle = product ? `${product.id}` : '';

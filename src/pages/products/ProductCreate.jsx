@@ -2,13 +2,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { productSchema } from '../../schemas/productSchema';
-import { useCreateProduct } from '../../hooks/useProducts';
-import { formatCurrency } from '../../lib/formatCurrency';
-import PageHeader from '../../components/PageHeader';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import { Icons } from '../../components/icons';
+import { productSchema } from '@/schemas/productSchema';
+import { useCreateProduct } from '@/hooks/useProducts';
+import { formatCurrency } from '@/lib/formatCurrency';
+import PageHeader from '@/components/PageHeader';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
+import { Icons } from '@/components/icons';
 
 const TIPS = [
   'Gunakan nama yang spesifik dan mudah dikenali.',
@@ -31,17 +31,8 @@ function FormSection({ title, subtitle, children }) {
 function PreviewCard({ name, price }) {
   return (
     <div className="mt-3 border border-ink-150 rounded-[10px] overflow-hidden">
-      <div
-        className="h-20 relative"
-        style={{
-          background:
-            'linear-gradient(135deg, var(--color-brand-50), var(--color-paper))',
-        }}
-      >
-        <span
-          className="font-mono absolute -right-2.5 -bottom-3.5 font-semibold text-brand-700"
-          style={{ fontSize: 64, opacity: 0.22, letterSpacing: '-0.05em' }}
-        >
+      <div className="h-20 relative bg-gradient-to-br from-brand-50 to-paper">
+        <span className="font-mono absolute -right-2.5 -bottom-3.5 font-semibold text-brand-700 text-[64px] opacity-[0.22] tracking-[-0.05em]">
           •
         </span>
       </div>
@@ -119,7 +110,7 @@ export default function ProductCreate() {
       <div className="px-10 pt-5 pb-10 grid grid-cols-1 lg:grid-cols-[1.4fr_0.6fr] gap-4 max-w-[1100px]">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="bg-paper border border-ink-150 rounded-[14px] p-7 shadow-[0_1px_0_rgba(10,11,10,0.04)] flex flex-col gap-[18px]"
+          className="bg-paper border border-ink-150 rounded-[14px] p-7 shadow-card flex flex-col gap-[18px]"
         >
           <FormSection
             title="Detail Produk"
@@ -176,15 +167,13 @@ export default function ProductCreate() {
         </form>
 
         <aside className="flex flex-col gap-4">
-          <div className="bg-paper border border-ink-150 rounded-[14px] p-[18px] shadow-[0_1px_0_rgba(10,11,10,0.04)]">
+          <div className="bg-paper border border-ink-150 rounded-[14px] p-[18px] shadow-card">
             <span className="eyebrow">Pratinjau</span>
             <PreviewCard name={name} price={price} />
           </div>
 
           <div className="bg-ink-950 text-white rounded-[14px] p-[18px]">
-            <span className="eyebrow" style={{ color: 'var(--color-brand-500)' }}>
-              Tips
-            </span>
+            <span className="eyebrow text-brand-500">Tips</span>
             <ul className="m-0 mt-2.5 p-0 list-none flex flex-col gap-2.5 text-[13px] text-white/75">
               {TIPS.map((t) => (
                 <li key={t} className="flex gap-2 items-start">
