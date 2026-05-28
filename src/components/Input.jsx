@@ -1,6 +1,21 @@
 import { forwardRef, useId, useState } from 'react';
 import { Icons } from './icons';
+import { cn } from '@/lib/cn';
 
+/**
+ * Input form yang kompatibel dengan react-hook-form `register`.
+ *
+ * @param {object} props
+ * @param {string} [props.label]
+ * @param {string} [props.hint] - Teks bantuan di bawah input (disembunyikan jika ada error).
+ * @param {string} [props.error] - Pesan error; mengaktifkan border merah & role="alert".
+ * @param {React.ReactNode} [props.leading] - Adornment kiri (icon/prefix).
+ * @param {React.ReactNode} [props.trailing] - Adornment kanan; diabaikan jika type="password".
+ * @param {string} [props.type='text'] - Native input type. `password` auto-render toggle visibilitas.
+ * @param {string} [props.id]
+ * @param {boolean} [props.optional] - Tampilkan label "Opsional" di sebelah label.
+ * @param {string} [props.className]
+ */
 const Input = forwardRef(function Input(
   {
     label,
@@ -25,17 +40,21 @@ const Input = forwardRef(function Input(
   const isPwd = type === 'password';
   const realType = isPwd ? (showPwd ? 'text' : 'password') : type;
 
-  const wrapperClass = [
+  const borderClass = error
+    ? 'border border-danger-600'
+    : focused
+      ? 'border border-ink-900'
+      : 'border border-ink-200';
+
+  const wrapperClass = cn(
     'flex items-center bg-paper rounded-lg h-10 transition-shadow',
     leading ? 'pl-2.5' : 'pl-3',
     trailing || isPwd ? 'pr-2.5' : 'pr-3',
-    error
-      ? 'border border-danger-600'
-      : focused
-        ? 'border border-ink-900'
-        : 'border border-ink-200',
-    focused ? 'shadow-[0_0_0_3px_rgba(93,187,45,0.18)]' : 'shadow-[0_1px_0_rgba(10,11,10,0.04)]',
-  ].join(' ');
+    borderClass,
+    focused
+      ? 'shadow-[0_0_0_3px_rgba(93,187,45,0.18)]'
+      : 'shadow-[0_1px_0_rgba(10,11,10,0.04)]',
+  );
 
   return (
     <div className={`flex flex-col gap-1.5 ${className}`}>
