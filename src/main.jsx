@@ -7,6 +7,10 @@ import App from './App.jsx';
 import { queryClient } from './lib/queryClient';
 import './assets/style.css';
 
+// main.jsx adalah entry point aplikasi. Tiga provider yang dibungkus di sini:
+// - StrictMode: mendeteksi side effect yang tidak aman di development (double-invoke effects)
+// - QueryClientProvider: menyediakan queryClient ke seluruh component tree
+// - Toaster: dipasang di root agar notifikasi toast bisa dipicu dari komponen mana saja
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>

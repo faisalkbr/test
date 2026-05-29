@@ -8,6 +8,9 @@ import Input from '@/components/Input';
 import Button from '@/components/Button';
 import { Icons } from '@/components/icons';
 
+// Login adalah halaman autentikasi dengan form email dan password.
+// Validasi dilakukan oleh loginSchema (Zod) sebelum data dikirim ke server —
+// error dari server ditangani di useLoginMutation dan ditampilkan via toast.
 export default function Login() {
   const { mutate: login, isPending } = useLoginMutation();
 

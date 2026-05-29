@@ -22,6 +22,9 @@ function computeStrength(password) {
   return s;
 }
 
+// Register adalah halaman pendaftaran akun baru dengan indikator kekuatan password real-time.
+// Kekuatan password dihitung dari watch('password') setiap kali user mengetik
+// dan divisualisasikan lewat bar warna berdasarkan skor dari computeStrength.
 export default function Register() {
   const { mutate: registerUser, isPending } = useRegisterMutation();
 
