@@ -1,3 +1,4 @@
+// cspell:disable
 export default function Spinner({ size = 14, className = '' }) {
   return (
     <span

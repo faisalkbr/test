@@ -9,9 +9,9 @@ const STATS = [
   ['7', 'Mitra UMKM'],
 ];
 
-// Kalau user sudah punya token, langsung redirect ke /products — tidak perlu lihat login lagi.
-// Teks intro di panel kiri berbeda antara login dan register karena audience-nya berbeda:
-// login untuk pengguna yang sudah dikenal, register untuk anggota yang baru bergabung.
+// AuthLayout adalah layout dua panel untuk halaman login dan register.
+// Kalau user sudah punya token, komponen ini langsung redirect ke /products.
+// Teks intro di panel kiri berbeda antara login dan register karena audience-nya berbeda.
 export default function AuthLayout() {
   const token = useAuthStore((state) => state.token);
   const location = useLocation();

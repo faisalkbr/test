@@ -3,9 +3,9 @@ import { useAuthStore } from '@/store/useAuthStore';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 
-// Error khusus untuk respons non-2xx dari server.
-// Menyimpan .status dan .data supaya komponen bisa handle kasus spesifik —
-// misalnya tampilkan pesan "bukan pemilik produk" untuk 403, bukan pesan generik.
+// ApiError adalah custom Error class untuk respons non-2xx dari server.
+// Menyimpan .status dan .data sehingga komponen bisa menangani kasus tertentu —
+// misalnya tampilkan pesan khusus untuk 403, bukan pesan generik.
 export class ApiError extends Error {
   constructor(message, { status, data } = {}) {
     super(message);
@@ -15,9 +15,10 @@ export class ApiError extends Error {
   }
 }
 
-// Baca body response dengan aman. Status 204 tidak punya body, langsung return null.
-// Content-type di-cek dulu — kalau server mengembalikan HTML (halaman error Nginx/Vercel),
-// kita tidak coba parse sebagai JSON supaya tidak throw SyntaxError yang membingungkan.
+// parseBody membaca body response dengan aman.
+// Status 204 tidak punya body sehingga langsung return null.
+// Content-type di-cek lebih dulu — kalau server mengembalikan HTML (halaman error Nginx/Vercel),
+// tidak akan ada percobaan parse JSON yang menghasilkan SyntaxError membingungkan.
 const parseBody = async (response) => {
   if (response.status === 204) return null;
   const contentType = response.headers.get('content-type') || '';
@@ -29,16 +30,14 @@ const parseBody = async (response) => {
   }
 };
 
-// Alur setiap kali apiFetch dipanggil:
-//
-// 1. Ambil token dari Zustand store (pakai .getState() bukan hook karena ini bukan komponen React)
-// 2. Susun headers — token diselipkan di Authorization kalau ada
-// 3. Kirim request ke backend
-// 4. Parse response body (lihat parseBody di atas)
-// 5. Kalau status 401 dan bukan endpoint login → logout otomatis
-//    (pengecualian login: supaya salah password tidak trigger logout)
-// 6. Kalau response tidak ok → throw ApiError (komponen bisa cek .status untuk handle spesifik)
-// 7. Kalau ok → return data
+// apiFetch adalah satu-satunya HTTP utility di aplikasi ini. Alurnya setiap kali dipanggil:
+// 1. Token diambil dari Zustand store lewat .getState() — bukan hook karena ini bukan komponen React
+// 2. Headers disusun dengan token di Authorization kalau ada
+// 3. Request dikirim ke backend
+// 4. Body response diparse via parseBody (lihat fungsi di atas)
+// 5. Status 401 di luar endpoint login memicu auto-logout
+//    (pengecualian login supaya salah password tidak langsung trigger logout)
+// 6. Response non-ok melempar ApiError dengan .status dan .data untuk penanganan spesifik
 export const apiFetch = async (endpoint, { signal, ...options } = {}) => {
   const { token } = useAuthStore.getState();
 

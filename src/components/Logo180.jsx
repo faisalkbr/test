@@ -1,3 +1,4 @@
+// cspell:disable
 export default function Logo180({ size = 28, light = false }) {
   const fg = light ? '#FFFFFF' : 'var(--color-ink-950)';
   const accent = light ? 'var(--color-brand-500)' : 'var(--color-brand-700)';

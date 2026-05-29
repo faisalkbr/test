@@ -2,9 +2,9 @@
 import { useEffect, useId, useRef } from 'react';
 import { Icons } from './icons';
 
-// Membungkus native <dialog> agar bisa dikendalikan secara deklaratif lewat prop `open`.
+// Modal adalah komponen berbasis native <dialog>, dikendalikan secara deklaratif lewat prop `open`.
 // Native dialog punya ESC handling dan focus trap bawaan — tidak perlu library tambahan.
-// `dismissible={false}` dipakai saat operasi sedang berjalan: mencegah user menutup modal
+// `dismissible={false}` berguna saat operasi sedang berjalan agar user tidak bisa keluar
 // di tengah-tengah proses yang tidak bisa dibatalkan (misalnya saat delete pending).
 export default function Modal({
   open,

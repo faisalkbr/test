@@ -1,15 +1,15 @@
 // cspell:disable
 
-// Singleton: dibuat sekali saat modul di-import, bukan setiap kali fungsi dipanggil.
-// Membuat Intl.NumberFormat berulang itu mahal — pola ini mencegah alokasi objek yang tidak perlu.
+// formatter adalah instance Intl.NumberFormat yang dibuat sekali saat modul di-import.
+// Pola singleton ini menghindari pembuatan objek Intl berulang setiap kali fungsi dipanggil.
 const formatter = new Intl.NumberFormat('id-ID', {
   style: 'currency',
   currency: 'IDR',
   maximumFractionDigits: 0,
 });
 
-// isFinite menangani semua input tidak valid (undefined, null, NaN, string kosong) sekaligus —
-// Number(undefined) → NaN, Number('') → 0, keduanya tidak memenuhi isFinite.
+// formatCurrency menerima nilai apapun dan mengembalikan '-' kalau nilainya tidak valid.
+// Guard isFinite menangani semua kasus: undefined → NaN, string kosong → 0 (tidak isFinite).
 export const formatCurrency = (value) => {
   const num = Number(value);
   if (!Number.isFinite(num)) return '-';

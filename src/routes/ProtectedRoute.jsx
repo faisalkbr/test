@@ -2,9 +2,9 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/store/useAuthStore';
 
-// Guard route: redirect ke /login kalau belum ada token.
+// ProtectedRoute adalah route guard yang redirect ke /login kalau token belum ada.
 // `state={{ from: location }}` menyimpan halaman asal supaya setelah login berhasil
-// bisa redirect balik — pattern ini sudah siap, tapi belum diimplementasi di halaman Login.
+// bisa redirect balik — pattern-nya sudah siap, belum diimplementasi di halaman Login.
 export default function ProtectedRoute({ children }) {
   const token = useAuthStore((state) => state.token);
   const location = useLocation();

@@ -3,11 +3,10 @@ import { forwardRef, useId, useState } from 'react';
 import { Icons } from './icons';
 import { cn } from '@/lib/cn';
 
-// Input generik yang kompatibel dengan react-hook-form lewat forwardRef.
-// Focus state dikelola via state lokal (bukan CSS :focus) supaya ring + border
-// bisa diatur dari satu titik dengan class yang konsisten.
-// Type "password" otomatis menambahkan toggle visibilitas — prop trailing diabaikan
-// kalau type="password" karena posisinya dipakai oleh toggle tersebut.
+// Input adalah komponen form generik yang kompatibel dengan react-hook-form lewat forwardRef.
+// Focus state dikelola via state lokal (bukan CSS :focus) agar ring + border
+// bisa diatur konsisten dari satu titik. Type "password" otomatis menambahkan toggle
+// visibilitas — prop trailing diabaikan kalau type="password" karena posisinya dipakai toggle.
 const Input = forwardRef(function Input(
   {
     label,

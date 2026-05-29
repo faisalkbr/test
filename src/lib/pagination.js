@@ -2,11 +2,11 @@
 
 const ELLIPSIS = '…';
 
-// Menghasilkan daftar nomor halaman yang ditampilkan di navigasi pagination.
-// Halaman 1 dan halaman terakhir selalu muncul — window tengah bergeser mengikuti cursor.
-// Kalau ada lompatan lebih dari satu antara ujung dan window tengah, sisipkan ELLIPSIS.
+// getPageWindow adalah fungsi yang menghasilkan daftar nomor halaman untuk navigasi pagination.
+// Halaman 1 dan halaman terakhir selalu ada — window tengah bergeser mengikuti halaman aktif.
+// ELLIPSIS ('…') disisipkan di antara ujung dan window kalau ada lompatan lebih dari satu halaman.
 //
-// Contoh total=20, current=10, max=5 → [1, '…', 8, 9, 10, 11, 12, '…', 20]
+// Contoh: total=20, current=10, max=5 → [1, '…', 8, 9, 10, 11, 12, '…', 20]
 export function getPageWindow(current, total, max = 5) {
   if (total <= max + 2) {
     return Array.from({ length: total }, (_, i) => i + 1);

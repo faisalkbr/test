@@ -17,7 +17,8 @@ const TIPS = [
   'Cek pratinjau sebelum menyimpan untuk memastikan tampilan rapi.',
 ];
 
-// Layout dua kolom: label di kiri, input di kanan — konsisten dengan pola admin dashboard.
+// FormSection adalah komponen layout dua kolom: label di kiri, input di kanan.
+// Pola ini konsisten dengan layout admin dashboard yang sering pakai grid dua kolom.
 function FormSection({ title, subtitle, children }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6 md:gap-8">
@@ -30,8 +31,8 @@ function FormSection({ title, subtitle, children }) {
   );
 }
 
-// Me-render tampilan kartu seperti yang akan muncul di halaman list.
-// Konten diupdate real-time saat user mengetik — nilainya dari watch() di parent.
+// PreviewCard adalah kartu pratinjau yang menampilkan tampilan produk secara real-time.
+// Kontennya berasal dari watch() di parent, berubah setiap kali user mengetik di form. — nilainya dari watch() di parent.
 function PreviewCard({ name, price }) {
   return (
     <div className="mt-3 border border-ink-150 rounded-[10px] overflow-hidden">

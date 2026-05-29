@@ -1,9 +1,10 @@
 // cspell:disable
 import { useEffect, useState } from 'react';
 
-// Menunda update nilai sampai tidak ada perubahan selama `delay` ms.
-// clearTimeout di cleanup penting: kalau value berubah lagi sebelum timer habis,
-// timer sebelumnya dibatalkan — hanya ketikan terakhir yang menghasilkan update.
+// useDebounce adalah hook yang menunggu jeda `delay` ms setelah perubahan terakhir
+// sebelum mengupdate nilai yang dikembalikan.
+// clearTimeout di cleanup memastikan hanya satu timer yang aktif pada satu waktu —
+// perubahan value yang berurutan hanya menghasilkan satu update di akhir.
 export function useDebounce(value, delay = 400) {
   const [debounced, setDebounced] = useState(value);
 

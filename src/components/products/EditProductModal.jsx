@@ -44,8 +44,8 @@ function EditForm({ product, onClose, mutation }) {
   const priceValue = watch('price');
 
   const onSubmit = (data) => {
-    // Hanya kirim field yang benar-benar diubah user — pakai PATCH, bukan PUT.
-    // Kalau tidak ada yang berubah sama sekali, cukup tutup modal tanpa request ke server.
+    // patch berisi hanya field yang benar-benar diubah user — sesuai PATCH, bukan PUT.
+    // Kalau tidak ada field yang berubah, modal langsung ditutup tanpa request ke server.
     const patch = Object.fromEntries(
       Object.entries(data).filter(([key]) => dirtyFields[key]),
     );

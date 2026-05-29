@@ -10,8 +10,8 @@ import { Icons } from '@/components/icons';
 import EditProductModal from '@/components/products/EditProductModal';
 import DeleteProductDialog from '@/components/products/DeleteProductDialog';
 
-// Format relatif untuk timestamp: di bawah 7 hari pakai "X menit/jam/hari lalu",
-// di atasnya pakai tanggal lengkap supaya tetap informatif.
+// relativeDate adalah fungsi yang mengubah timestamp ISO ke format relatif (misal "3 jam lalu").
+// Di bawah 7 hari format relatif digunakan, di atasnya pakai tanggal lengkap agar tetap informatif.
 function relativeDate(iso) {
   if (!iso) return '—';
   const d = new Date(iso);
@@ -51,8 +51,9 @@ function MetaRow({ label, children }) {
   );
 }
 
-// Modal dan dialog dikontrol via boolean state (bukan id seperti di ProductsList)
-// karena di sini hanya ada satu produk yang dimaksud — tidak perlu menyimpan id target.
+// ProductDetail menampilkan detail satu produk berdasarkan id dari URL params.
+// Modal edit dan dialog hapus di sini dikontrol via boolean state (bukan id seperti di ProductsList)
+// karena produk yang dimaksud sudah jelas — tidak perlu menyimpan id target terpisah.
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();

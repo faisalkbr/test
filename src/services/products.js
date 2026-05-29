@@ -1,8 +1,9 @@
 // cspell:disable
 import { apiFetch } from './api';
 
-// Membangun query string dari object params, tapi hanya menyertakan key yang punya nilai.
-// undefined, null, dan string kosong dilewati — tidak ingin kirim ?search=&sort_by= ke backend.
+// buildQuery adalah fungsi yang membangun query string dari object params.
+// Hanya key yang punya nilai yang disertakan — undefined, null, dan string kosong dilewati
+// agar tidak ada param kosong seperti ?search=&sort_by= yang terkirim ke backend.
 const buildQuery = (params) => {
   const usp = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
@@ -14,9 +15,10 @@ const buildQuery = (params) => {
   return qs ? `?${qs}` : '';
 };
 
-// Semua request produk terpusat di sini. Tidak ada fetch langsung dari komponen atau hook —
-// selalu lewat productsApi → apiFetch, yang sudah mengurus auth header dan error parsing.
-// Method `update` pakai PATCH bukan PUT: hanya field yang berubah yang dikirim ke server.
+// productsApi adalah objek yang berisi semua method CRUD untuk resource produk.
+// Semua fetch produk lewat sini — tidak ada fetch langsung dari komponen atau hook —
+// sehingga auth header dan error parsing sudah diurus oleh apiFetch secara terpusat.
+// Method update menggunakan PATCH bukan PUT: hanya field yang berubah yang dikirim ke server.
 export const productsApi = {
   list: ({
     page = 1,

@@ -5,21 +5,21 @@ import { useDebounce } from '@/hooks/useDebounce';
 
 const SEARCH_DEBOUNCE_MS = 400;
 
+// useProductsFilters adalah hook yang mengelola semua state filter, sort, dan pagination
+// sebagai URL search params — sehingga state tersimpan di URL dan bisa di-bookmark atau di-share.
+//
 // Alur saat user mengetik di search input:
+//   1. searchInput (state lokal) berubah langsung setiap keystroke
+//   2. useDebounce menunggu 400ms sejak ketikan terakhir — hasilnya debouncedSearch
+//   3. useEffect mendeteksi debouncedSearch berubah → URL diupdate (?search=..., page=1)
+//   4. URL berubah → useProductsList re-fetch otomatis dengan params baru
 //
-//   1. setSearchInput dipanggil → update searchInput (state lokal, langsung)
-//   2. useDebounce menunggu 400ms sejak ketikan terakhir → hasilnya debouncedSearch
-//   3. useEffect deteksi debouncedSearch berubah → update URL (?search=..., page=1)
-//   4. URL berubah → useProductsList di halaman list re-fetch dengan params baru
-//
-// Kenapa dipisah antara searchInput dan search (dari URL)?
-// → Supaya URL tidak diupdate setiap keystroke. User ketik "laptop", URL cukup
-//   update sekali setelah selesai — bukan tiap huruf l, la, lap, lapt, ...
+// searchInput dan search (dari URL) dipisah agar URL tidak diupdate setiap keystroke.
+// User ketik "laptop" → URL hanya update sekali setelah selesai, bukan tiap l, la, lap, lapt...
 //
 // Alur saat user ganti sort / page / view:
-//
 //   1. setSortBy / setSortOrder / setPage / setView dipanggil
-//   2. updateParam langsung update URL (tanpa debounce)
+//   2. updateParam langsung memperbarui URL (tanpa debounce)
 //   3. URL berubah → useProductsList re-fetch otomatis
 export function useProductsFilters() {
   const [searchParams, setSearchParams] = useSearchParams();

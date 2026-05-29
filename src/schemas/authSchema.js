@@ -11,9 +11,9 @@ export const loginSchema = z.object({
     .min(1, { message: 'Password wajib diisi' }),
 });
 
-// refine mengecek kecocokan password secara client-side.
+// registerSchema menggunakan refine untuk mengecek kecocokan password secara client-side.
 // Field `confirmPassword` juga harus dikirim ke backend — server mewajibkannya —
-// jadi field ini tidak boleh dihapus meski validasinya sudah ada di sini.
+// sehingga field ini tidak boleh dihapus meski validasinya sudah ada di sini.
 export const registerSchema = z.object({
   name: z
     .string()

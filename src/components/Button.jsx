@@ -23,10 +23,10 @@ const VARIANT = {
     'bg-danger-600 text-white border border-danger-600 hover:bg-danger-700 shadow-[0_1px_0_rgba(10,11,10,0.04)]',
 };
 
-// Tombol utama aplikasi — 6 variant × 3 ukuran, semua terpusat di sini.
-// Saat `loading=true`, ikon leading otomatis diganti spinner dan tombol di-disable —
-// tidak perlu mengatur disabled dari komponen pemanggil.
-// Trailing icon disembunyikan saat loading supaya spinner tidak tampil bersisian dengan ikon lain.
+// Button adalah tombol utama aplikasi — tersedia 6 variant × 3 ukuran, semua terpusat di sini.
+// Saat `loading=true`, ikon leading otomatis diganti spinner dan tombol di-disable
+// tanpa penanganan manual dari komponen pemanggil.
+// Trailing icon disembunyikan saat loading agar tidak tampil bersisian dengan spinner.
 export default function Button({
   variant = 'primary',
   size = 'md',

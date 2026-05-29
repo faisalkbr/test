@@ -12,9 +12,9 @@ const VIEW_OPTIONS = [
   { value: 'grid', icon: <Icons.grid size={15} />, label: 'Kartu' },
 ];
 
-// searchInput adalah nilai lokal yang dikelola useProductsFilters — bukan nilai dari URL.
-// Perubahan searchInput tidak langsung update URL; ada debounce 400ms di hook tersebut.
-// onSearchInput('') cukup untuk clear; hook yang akan hapus param search dari URL.
+// FilterBar adalah bar kontrol pencarian, sort, dan toggle view di atas daftar produk.
+// searchInput yang diterima adalah state lokal dari useProductsFilters, bukan nilai dari URL —
+// perubahan tidak langsung update URL karena ada debounce 400ms di hook tersebut.
 export default function FilterBar({
   searchInput,
   onSearchInput,

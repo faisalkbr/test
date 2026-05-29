@@ -10,8 +10,8 @@ import { cn } from '@/lib/cn';
 
 const STRENGTH_LABEL = ['Terlalu lemah', 'Lemah', 'Cukup', 'Kuat', 'Sangat kuat'];
 
-// Skor 0–4 dari empat kriteria bebas: panjang, huruf besar, angka, karakter spesial.
-// Tidak ada library — logika ringan, cukup untuk feedback visual real-time.
+// computeStrength adalah fungsi yang menghitung skor kekuatan password dari 0 hingga 4,
+// berdasarkan empat kriteria: panjang ≥8, ada huruf besar, ada angka, ada karakter spesial.
 function computeStrength(password) {
   let s = 0;
   if (!password) return 0;

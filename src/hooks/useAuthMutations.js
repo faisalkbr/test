@@ -5,8 +5,9 @@ import toast from 'react-hot-toast';
 import { apiFetch, ApiError } from '@/services/api';
 import { useAuthStore } from '@/store/useAuthStore';
 
-// Setelah register berhasil, user diarahkan ke halaman login — tidak auto-login.
-// Backend tidak mengembalikan token setelah register, jadi harus login manual.
+// useRegisterMutation adalah mutation hook untuk proses registrasi akun baru.
+// Setelah berhasil, user diarahkan ke halaman login — tidak auto-login karena
+// backend tidak mengembalikan token setelah register.
 export const useRegisterMutation = () => {
   const navigate = useNavigate();
 
@@ -26,10 +27,10 @@ export const useRegisterMutation = () => {
   });
 };
 
-// Token divalidasi di dalam mutationFn sebelum disimpan ke store.
-// Kalau server kirim response 200 tapi tanpa access_token, itu dianggap error —
-// lebih aman throw ApiError eksplisit daripada menyimpan token null atau undefined.
-// Error 401 mendapat pesan yang lebih spesifik daripada pesan generik dari server.
+// useLoginMutation adalah mutation hook untuk proses login.
+// Token divalidasi di dalam mutationFn sebelum disimpan ke store —
+// kalau server kirim 200 tapi tanpa access_token, hook ini melempar ApiError eksplisit
+// daripada menyimpan token kosong. Error 401 mendapat pesan yang lebih spesifik dari server.
 export const useLoginMutation = () => {
   const navigate = useNavigate();
   const setCredentials = useAuthStore((state) => state.setCredentials);

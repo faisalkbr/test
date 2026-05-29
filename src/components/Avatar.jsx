@@ -1,3 +1,6 @@
+// cspell:disable
+
+// Avatar menampilkan inisial nama pengguna (maksimal 2 huruf pertama dari setiap kata).
 export default function Avatar({ name = '', size = 32 }) {
   const initials =
     (name || '?')
@@ -23,6 +26,9 @@ export default function Avatar({ name = '', size = 32 }) {
   );
 }
 
+// ProductAvatar menampilkan huruf pertama nama produk dengan warna yang ditentukan
+// secara deterministik dari nama — hash sederhana (polynomial rolling) menghasilkan hue
+// yang konsisten untuk nama yang sama tanpa perlu menyimpan warna di database.
 export function ProductAvatar({ name = '', size = 30 }) {
   const letter = (name || '?')[0]?.toUpperCase() || '?';
   let h = 0;

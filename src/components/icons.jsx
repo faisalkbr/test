@@ -1,4 +1,9 @@
+// cspell:disable
 /* eslint-disable react-refresh/only-export-components */
+
+// Icon adalah komponen wrapper internal untuk SVG — tidak diekspor, hanya dipakai di file ini.
+// eslint-disable di atas diperlukan karena fungsi-fungsi icon tidak mengikuti konvensi PascalCase
+// sehingga react-refresh tidak mengenalinya sebagai komponen React.
 function Icon({ children, size = 16, stroke = 1.7, fill = 'none', className }) {
   return (
     <svg
@@ -18,6 +23,8 @@ function Icon({ children, size = 16, stroke = 1.7, fill = 'none', className }) {
   );
 }
 
+// Icons adalah objek berisi semua ikon aplikasi sebagai fungsi yang menerima prop size dan lainnya.
+// Spinner diekspor terpisah dari ./Spinner karena dipakai juga di Button tanpa lewat Icons.
 export const Icons = {
   search: (p) => <Icon {...p}><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></Icon>,
   plus: (p) => <Icon {...p}><path d="M12 5v14M5 12h14" /></Icon>,

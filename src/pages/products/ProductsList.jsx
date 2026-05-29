@@ -17,9 +17,9 @@ import Pagination from './components/Pagination';
 
 const PAGE_SIZE = 10;
 
-// Menangani semua kemungkinan state tampilan list:
+// ProductsContent adalah komponen yang menangani semua state tampilan list:
 // loading awal, error fetch, hasil kosong, dan data berhasil dimuat.
-// Dipisah dari ProductsList supaya logika tampilan tidak campur dengan logika filter dan modal.
+// Dipisah dari ProductsList agar logika tampilan tidak campur dengan logika filter dan modal.
 function ProductsContent({ query, view, search, onEdit, onDelete, onClearSearch }) {
   if (query.isLoading) return <TableSkeleton />;
 

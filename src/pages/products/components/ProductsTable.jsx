@@ -5,8 +5,8 @@ import { ProductAvatar } from '@/components/Avatar';
 import { Icons } from '@/components/icons';
 import { usePrefetchProductDetail } from '@/hooks/useProducts';
 
-// Prefetch dipicu saat cursor masuk ke baris atau saat baris di-focus via keyboard.
-// Data detail masuk ke cache sehingga halaman detail muncul instan tanpa loading saat diklik.
+// ProductRow adalah baris tabel yang memicu prefetch data detail produk
+// saat cursor masuk atau baris di-focus via keyboard — hasilnya halaman detail muncul instan.
 function ProductRow({ product, onEdit, onDelete, onPrefetch }) {
   const prefetch = () => onPrefetch(product.id);
   return (

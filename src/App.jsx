@@ -13,7 +13,7 @@ const ProductCreate = lazy(() => import('./pages/products/ProductCreate'));
 const ProductDetail = lazy(() => import('./pages/products/ProductDetail'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
-// Spinner yang muncul saat halaman lazy-loaded belum selesai diunduh.
+// RouteFallback adalah spinner yang muncul saat chunk halaman lazy-loaded belum selesai diunduh.
 // min-h mencegah layout collapse — konten tidak langsung bergeser saat chunk datang.
 function RouteFallback() {
   return (
@@ -23,7 +23,8 @@ function RouteFallback() {
   );
 }
 
-// Root routing aplikasi. Semua halaman di-lazy load (code splitting) — hanya diunduh saat dibutuhkan.
+// App adalah komponen root yang mendefinisikan seluruh routing aplikasi.
+// Semua halaman di-lazy load (code splitting) — chunk hanya diunduh saat route tersebut diakses.
 // Dua grup route: AuthLayout (login/register) dan ProtectedRoute+DashboardLayout (semua halaman dashboard).
 export default function App() {
   return (
