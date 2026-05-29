@@ -1,3 +1,4 @@
+// cspell:disable
 const SKELETON_ROWS = 6;
 
 export default function TableSkeleton() {

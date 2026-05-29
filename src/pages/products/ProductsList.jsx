@@ -1,3 +1,4 @@
+// cspell:disable
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useProductsList } from '@/hooks/useProducts';
@@ -16,6 +17,9 @@ import Pagination from './components/Pagination';
 
 const PAGE_SIZE = 10;
 
+// Menangani semua kemungkinan state tampilan list:
+// loading awal, error fetch, hasil kosong, dan data berhasil dimuat.
+// Dipisah dari ProductsList supaya logika tampilan tidak campur dengan logika filter dan modal.
 function ProductsContent({ query, view, search, onEdit, onDelete, onClearSearch }) {
   if (query.isLoading) return <TableSkeleton />;
 
@@ -35,6 +39,11 @@ function ProductsContent({ query, view, search, onEdit, onDelete, onClearSearch 
   return <ListView items={query.items} onEdit={onEdit} onDelete={onDelete} />;
 }
 
+// Halaman utama daftar produk. Tugasnya mengkoordinasikan tiga hal:
+// 1. Filter & pagination — dikelola oleh useProductsFilters (disimpan di URL)
+// 2. Data fetching — dikelola oleh useProductsList berdasarkan filter aktif
+// 3. Modal edit dan dialog hapus — dikontrol lewat editId dan deleteTarget
+//    (null = tertutup, ada nilai = terbuka dengan produk tersebut)
 export default function ProductsList() {
   const filters = useProductsFilters();
   const [editId, setEditId] = useState(null);
@@ -53,6 +62,7 @@ export default function ProductsList() {
   const totalPages = pagination?.total_pages ?? 1;
   const total = pagination?.total ?? items.length;
   const currentPage = pagination?.page ?? filters.page;
+  // Pagination hanya ditampilkan kalau memang ada lebih dari satu halaman.
   const showPagination = pagination && totalPages > 1;
 
   return (
@@ -104,6 +114,8 @@ export default function ProductsList() {
         )}
       </div>
 
+      {/* Modal dan dialog selalu di-render di sini supaya transisi animasinya mulus.
+          Terbuka atau tidaknya dikontrol dari nilai editId / deleteTarget. */}
       <EditProductModal productId={editId} onClose={() => setEditId(null)} />
       <DeleteProductDialog
         product={deleteTarget}

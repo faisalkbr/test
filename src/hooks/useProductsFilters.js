@@ -1,9 +1,26 @@
+// cspell:disable
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDebounce } from '@/hooks/useDebounce';
 
 const SEARCH_DEBOUNCE_MS = 400;
 
+// Alur saat user mengetik di search input:
+//
+//   1. setSearchInput dipanggil → update searchInput (state lokal, langsung)
+//   2. useDebounce menunggu 400ms sejak ketikan terakhir → hasilnya debouncedSearch
+//   3. useEffect deteksi debouncedSearch berubah → update URL (?search=..., page=1)
+//   4. URL berubah → useProductsList di halaman list re-fetch dengan params baru
+//
+// Kenapa dipisah antara searchInput dan search (dari URL)?
+// → Supaya URL tidak diupdate setiap keystroke. User ketik "laptop", URL cukup
+//   update sekali setelah selesai — bukan tiap huruf l, la, lap, lapt, ...
+//
+// Alur saat user ganti sort / page / view:
+//
+//   1. setSortBy / setSortOrder / setPage / setView dipanggil
+//   2. updateParam langsung update URL (tanpa debounce)
+//   3. URL berubah → useProductsList re-fetch otomatis
 export function useProductsFilters() {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -17,6 +34,7 @@ export function useProductsFilters() {
   const debouncedSearch = useDebounce(searchInput, SEARCH_DEBOUNCE_MS);
 
   useEffect(() => {
+    // Guard: skip kalau nilai debounce sama dengan URL — cegah infinite loop.
     if (debouncedSearch === search) return;
     setSearchParams(
       (prev) => {
@@ -26,6 +44,7 @@ export function useProductsFilters() {
         params.set('page', '1');
         return params;
       },
+      // replace: true → ketikan tidak masuk browser history, back button tidak aneh.
       { replace: true },
     );
   }, [debouncedSearch, search, setSearchParams]);
@@ -58,6 +77,7 @@ export function useProductsFilters() {
       }),
     setView: (v) =>
       updateParam((p) => {
+        // 'table' adalah default — tidak perlu di URL, hapus saja supaya URL bersih.
         if (v === 'grid') p.set('view', 'grid');
         else p.delete('view');
       }),
@@ -69,4 +89,3 @@ export function useProductsFilters() {
       }),
   };
 }
-

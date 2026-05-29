@@ -1,5 +1,12 @@
+// cspell:disable
+
 const ELLIPSIS = '…';
 
+// Menghasilkan daftar nomor halaman yang ditampilkan di navigasi pagination.
+// Halaman 1 dan halaman terakhir selalu muncul — window tengah bergeser mengikuti cursor.
+// Kalau ada lompatan lebih dari satu antara ujung dan window tengah, sisipkan ELLIPSIS.
+//
+// Contoh total=20, current=10, max=5 → [1, '…', 8, 9, 10, 11, 12, '…', 20]
 export function getPageWindow(current, total, max = 5) {
   if (total <= max + 2) {
     return Array.from({ length: total }, (_, i) => i + 1);

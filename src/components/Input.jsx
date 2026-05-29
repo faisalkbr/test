@@ -1,21 +1,13 @@
+// cspell:disable
 import { forwardRef, useId, useState } from 'react';
 import { Icons } from './icons';
 import { cn } from '@/lib/cn';
 
-/**
- * Input form yang kompatibel dengan react-hook-form `register`.
- *
- * @param {object} props
- * @param {string} [props.label]
- * @param {string} [props.hint] - Teks bantuan di bawah input (disembunyikan jika ada error).
- * @param {string} [props.error] - Pesan error; mengaktifkan border merah & role="alert".
- * @param {React.ReactNode} [props.leading] - Adornment kiri (icon/prefix).
- * @param {React.ReactNode} [props.trailing] - Adornment kanan; diabaikan jika type="password".
- * @param {string} [props.type='text'] - Native input type. `password` auto-render toggle visibilitas.
- * @param {string} [props.id]
- * @param {boolean} [props.optional] - Tampilkan label "Opsional" di sebelah label.
- * @param {string} [props.className]
- */
+// Input generik yang kompatibel dengan react-hook-form lewat forwardRef.
+// Focus state dikelola via state lokal (bukan CSS :focus) supaya ring + border
+// bisa diatur dari satu titik dengan class yang konsisten.
+// Type "password" otomatis menambahkan toggle visibilitas — prop trailing diabaikan
+// kalau type="password" karena posisinya dipakai oleh toggle tersebut.
 const Input = forwardRef(function Input(
   {
     label,

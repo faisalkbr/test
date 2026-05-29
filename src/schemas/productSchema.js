@@ -1,5 +1,8 @@
+// cspell:disable
 import { z } from 'zod';
 
+// z.coerce.number() perlu karena semua nilai dari input HTML native selalu berupa string,
+// termasuk input type="number". Tanpa coerce, angka "5000" tidak lulus validasi z.number().
 export const productSchema = z.object({
   name: z
     .string()

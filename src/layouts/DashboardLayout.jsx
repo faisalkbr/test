@@ -1,3 +1,4 @@
+// cspell:disable
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuthStore } from '@/store/useAuthStore';
 import { cn } from '@/lib/cn';
@@ -5,6 +6,11 @@ import Logo180 from '@/components/Logo180';
 import Avatar from '@/components/Avatar';
 import { Icons } from '@/components/icons';
 
+// NavItem menangani dua keadaan: aktif (bisa diklik) dan disabled (fitur belum tersedia).
+// Kalau disabled, dirender sebagai <div> biasa — bukan <NavLink> — supaya tidak ada href
+// dan tidak bisa diklik maupun di-tab. Prop `hint` dipakai untuk tooltip "Segera".
+// Kalau aktif, NavLink otomatis mendeteksi apakah route-nya cocok lewat prop `end`:
+// tanpa `end`, /products dianggap aktif juga saat user ada di /products/new.
 function NavItem({ to, icon, label, badge, disabled, hint }) {
   if (disabled) {
     return (
@@ -53,6 +59,10 @@ function NavItem({ to, icon, label, badge, disabled, hint }) {
   );
 }
 
+// Layout utama untuk semua halaman dashboard. Sidebar di kiri, konten di kanan.
+// Sidebar pakai `sticky top-0 h-screen` supaya tetap terlihat saat konten di-scroll ke bawah.
+// Konten halaman dirender via <Outlet> — React Router yang mengisi bagian ini sesuai route aktif.
+// Data user (nama untuk Avatar) dan fungsi logout diambil langsung dari Zustand store.
 export default function DashboardLayout() {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);

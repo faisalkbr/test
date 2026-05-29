@@ -1,3 +1,4 @@
+// cspell:disable
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'react-router-dom';
@@ -9,6 +10,8 @@ import { cn } from '@/lib/cn';
 
 const STRENGTH_LABEL = ['Terlalu lemah', 'Lemah', 'Cukup', 'Kuat', 'Sangat kuat'];
 
+// Skor 0–4 dari empat kriteria bebas: panjang, huruf besar, angka, karakter spesial.
+// Tidak ada library — logika ringan, cukup untuk feedback visual real-time.
 function computeStrength(password) {
   let s = 0;
   if (!password) return 0;

@@ -1,9 +1,12 @@
+// cspell:disable
 import { Link } from 'react-router-dom';
 import { formatCurrency } from '@/lib/formatCurrency';
 import { ProductAvatar } from '@/components/Avatar';
 import { Icons } from '@/components/icons';
 import { usePrefetchProductDetail } from '@/hooks/useProducts';
 
+// Prefetch dipicu saat cursor masuk ke baris atau saat baris di-focus via keyboard.
+// Data detail masuk ke cache sehingga halaman detail muncul instan tanpa loading saat diklik.
 function ProductRow({ product, onEdit, onDelete, onPrefetch }) {
   const prefetch = () => onPrefetch(product.id);
   return (

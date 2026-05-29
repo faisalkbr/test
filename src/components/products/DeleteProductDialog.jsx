@@ -1,3 +1,4 @@
+// cspell:disable
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import Modal from '@/components/Modal';
@@ -6,6 +7,9 @@ import { Icons } from '@/components/icons';
 import { useDeleteProduct } from '@/hooks/useProducts';
 import { formatCurrency } from '@/lib/formatCurrency';
 
+// Error dari server diterjemahkan ke pesan yang lebih manusiawi.
+// Ditampilkan inline di dalam dialog — bukan toast — supaya user tidak kehilangan konteks
+// saat memutuskan apakah ingin mencoba lagi atau batalkan.
 const formatError = (error) => {
   if (!error) return null;
   if (error.status === 403) return 'Anda bukan pemilik produk ini.';
@@ -13,6 +17,10 @@ const formatError = (error) => {
   return error.message || 'Gagal menghapus produk.';
 };
 
+// Polanya sama dengan EditProductModal: open/tutup dikontrol dari luar lewat prop `product`.
+// Kalau product bernilai null berarti dialog tertutup, kalau ada objek berarti terbuka.
+// Setiap kali dialog dibuka untuk produk yang berbeda, error dari sesi hapus sebelumnya direset
+// supaya tidak ada pesan error yang "nyasar" dari produk lain.
 export default function DeleteProductDialog({ product, onClose, onSuccess }) {
   const open = product != null;
   const deleteMutation = useDeleteProduct();

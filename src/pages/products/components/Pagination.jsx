@@ -1,8 +1,11 @@
+// cspell:disable
 import { cn } from '@/lib/cn';
 import { getPageWindow, ELLIPSIS } from '@/lib/pagination';
 import Button from '@/components/Button';
 import { Icons } from '@/components/icons';
 
+// Tombol prev/next dan semua nomor halaman di-disable saat isFetching
+// supaya tidak ada dua request pagination yang berjalan bersamaan dan saling menimpa.
 export default function Pagination({
   currentPage,
   totalPages,

@@ -1,3 +1,4 @@
+// cspell:disable
 import { Spinner } from './icons';
 import { cn } from '@/lib/cn';
 
@@ -22,21 +23,10 @@ const VARIANT = {
     'bg-danger-600 text-white border border-danger-600 hover:bg-danger-700 shadow-[0_1px_0_rgba(10,11,10,0.04)]',
 };
 
-/**
- * Tombol primer aplikasi. Semua tombol interaktif sebaiknya pakai komponen ini.
- *
- * @param {object} props
- * @param {'primary'|'accent'|'secondary'|'ghost'|'danger'|'dangerSolid'} [props.variant='primary']
- * @param {'sm'|'md'|'lg'} [props.size='md']
- * @param {boolean} [props.fullWidth=false] - Lebar penuh container parent.
- * @param {'button'|'submit'|'reset'} [props.type='button']
- * @param {React.ReactNode} [props.leading] - Ikon sebelum teks.
- * @param {React.ReactNode} [props.trailing] - Ikon setelah teks.
- * @param {boolean} [props.loading=false] - Tampilkan spinner & disable tombol.
- * @param {boolean} [props.disabled]
- * @param {string} [props.className]
- * @param {React.ReactNode} props.children
- */
+// Tombol utama aplikasi — 6 variant × 3 ukuran, semua terpusat di sini.
+// Saat `loading=true`, ikon leading otomatis diganti spinner dan tombol di-disable —
+// tidak perlu mengatur disabled dari komponen pemanggil.
+// Trailing icon disembunyikan saat loading supaya spinner tidak tampil bersisian dengan ikon lain.
 export default function Button({
   variant = 'primary',
   size = 'md',

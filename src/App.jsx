@@ -1,3 +1,4 @@
+// cspell:disable
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import AuthLayout from './layouts/AuthLayout';
@@ -12,6 +13,8 @@ const ProductCreate = lazy(() => import('./pages/products/ProductCreate'));
 const ProductDetail = lazy(() => import('./pages/products/ProductDetail'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
+// Spinner yang muncul saat halaman lazy-loaded belum selesai diunduh.
+// min-h mencegah layout collapse — konten tidak langsung bergeser saat chunk datang.
 function RouteFallback() {
   return (
     <div className="min-h-[40vh] flex items-center justify-center text-ink-500">
@@ -20,6 +23,8 @@ function RouteFallback() {
   );
 }
 
+// Root routing aplikasi. Semua halaman di-lazy load (code splitting) — hanya diunduh saat dibutuhkan.
+// Dua grup route: AuthLayout (login/register) dan ProtectedRoute+DashboardLayout (semua halaman dashboard).
 export default function App() {
   return (
     <BrowserRouter>

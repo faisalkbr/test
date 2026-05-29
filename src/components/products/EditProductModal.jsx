@@ -1,3 +1,4 @@
+// cspell:disable
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
@@ -10,6 +11,8 @@ import { productSchema } from '@/schemas/productSchema';
 import { useProductDetail, useUpdateProduct } from '@/hooks/useProducts';
 import { formatCurrency } from '@/lib/formatCurrency';
 
+// Error dari server diterjemahkan ke pesan yang lebih manusiawi.
+// Ditampilkan inline di dalam modal — bukan toast — supaya user tidak kehilangan konteks.
 const formatError = (error) => {
   if (!error) return null;
   if (error.status === 403) return 'Anda bukan pemilik produk ini.';
@@ -17,6 +20,9 @@ const formatError = (error) => {
   return error.message || 'Gagal memperbarui produk.';
 };
 
+// Komponen form dipisah dari modal supaya logika form tidak campur dengan logika fetching data.
+// Setiap kali productId berubah, komponen ini di-remount sepenuhnya (lihat key={productId} di bawah)
+// sehingga state form selalu bersih untuk produk yang berbeda.
 function EditForm({ product, onClose, mutation }) {
   const productId = product?.id;
   const {
@@ -30,6 +36,7 @@ function EditForm({ product, onClose, mutation }) {
     defaultValues: { name: product?.name ?? '', price: product?.price ?? '' },
   });
 
+  // Sinkronisasi ulang nilai form kalau data produk berubah dari luar (misalnya setelah refetch).
   useEffect(() => {
     if (product) reset({ name: product.name, price: product.price });
   }, [product?.id, product?.name, product?.price, reset]);
@@ -37,6 +44,8 @@ function EditForm({ product, onClose, mutation }) {
   const priceValue = watch('price');
 
   const onSubmit = (data) => {
+    // Hanya kirim field yang benar-benar diubah user — pakai PATCH, bukan PUT.
+    // Kalau tidak ada yang berubah sama sekali, cukup tutup modal tanpa request ke server.
     const patch = Object.fromEntries(
       Object.entries(data).filter(([key]) => dirtyFields[key]),
     );
@@ -97,6 +106,10 @@ function EditForm({ product, onClose, mutation }) {
   );
 }
 
+// Modal shell yang mengurus fetching data dan setup mutation.
+// productId dikontrol dari luar: kalau null berarti modal tertutup, kalau ada berarti modal terbuka.
+// Setiap kali modal dibuka dengan produk baru, error dari mutation sebelumnya direset
+// supaya tidak muncul pesan error dari sesi edit yang lalu.
 export default function EditProductModal({ productId, onClose }) {
   const open = productId != null;
   const detailQuery = useProductDetail(productId);
@@ -146,6 +159,8 @@ export default function EditProductModal({ productId, onClose }) {
           {detailQuery.error?.message || 'Gagal memuat data produk'}
         </div>
       )}
+      {/* key={productId} memaksa EditForm di-remount sepenuhnya saat berpindah produk,
+          sehingga state form selalu bersih dan tidak tercampur antar produk. */}
       {product && (
         <EditForm
           key={productId}

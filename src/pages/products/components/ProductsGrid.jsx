@@ -1,8 +1,12 @@
+// cspell:disable
 import { Link } from 'react-router-dom';
 import { formatCurrency } from '@/lib/formatCurrency';
 import { Icons } from '@/components/icons';
 import { usePrefetchProductDetail } from '@/hooks/useProducts';
 
+// Seluruh area kartu bisa diklik berkat `after:absolute after:inset-0` pada Link nama produk —
+// teknik "full-card link" tanpa harus membungkus semua elemen dalam satu <a> yang merusak aksesibilitas.
+// Tombol edit/hapus pakai `relative z-10` supaya berada di atas layer pseudo-element link.
 function ProductCard({ product, onEdit, onDelete, onPrefetch }) {
   const idTail = String(product.id).slice(-2).toUpperCase();
   const prefetch = () => onPrefetch(product.id);

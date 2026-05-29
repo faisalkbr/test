@@ -1,3 +1,4 @@
+// cspell:disable
 import { cn } from '@/lib/cn';
 import { Icons, Spinner } from '@/components/icons';
 
@@ -11,6 +12,9 @@ const VIEW_OPTIONS = [
   { value: 'grid', icon: <Icons.grid size={15} />, label: 'Kartu' },
 ];
 
+// searchInput adalah nilai lokal yang dikelola useProductsFilters — bukan nilai dari URL.
+// Perubahan searchInput tidak langsung update URL; ada debounce 400ms di hook tersebut.
+// onSearchInput('') cukup untuk clear; hook yang akan hapus param search dari URL.
 export default function FilterBar({
   searchInput,
   onSearchInput,

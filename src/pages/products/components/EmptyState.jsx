@@ -1,3 +1,4 @@
+// cspell:disable
 import { Link } from 'react-router-dom';
 import Button from '@/components/Button';
 import { Icons } from '@/components/icons';

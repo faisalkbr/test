@@ -1,3 +1,4 @@
+// cspell:disable
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useProductDetail } from '@/hooks/useProducts';
@@ -9,6 +10,8 @@ import { Icons } from '@/components/icons';
 import EditProductModal from '@/components/products/EditProductModal';
 import DeleteProductDialog from '@/components/products/DeleteProductDialog';
 
+// Format relatif untuk timestamp: di bawah 7 hari pakai "X menit/jam/hari lalu",
+// di atasnya pakai tanggal lengkap supaya tetap informatif.
 function relativeDate(iso) {
   if (!iso) return '—';
   const d = new Date(iso);
@@ -48,6 +51,8 @@ function MetaRow({ label, children }) {
   );
 }
 
+// Modal dan dialog dikontrol via boolean state (bukan id seperti di ProductsList)
+// karena di sini hanya ada satu produk yang dimaksud — tidak perlu menyimpan id target.
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();

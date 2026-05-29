@@ -1,19 +1,11 @@
+// cspell:disable
 import { useEffect, useId, useRef } from 'react';
 import { Icons } from './icons';
 
-/**
- * Modal berbasis native `<dialog>` (ESC untuk tutup, focus trap built-in).
- *
- * @param {object} props
- * @param {boolean} props.open - Terbuka/tertutup. Komponen mengontrol dialog via `showModal()`/`close()`.
- * @param {() => void} props.onClose - Dipanggil saat dialog `onClose` ter-trigger (ESC/backdrop/programmatic).
- * @param {React.ReactNode} [props.title]
- * @param {React.ReactNode} [props.subtitle]
- * @param {React.ReactNode} props.children
- * @param {React.ReactNode} [props.footer] - Slot footer; biasanya berisi tombol aksi.
- * @param {number} [props.width=480] - Lebar dialog dalam pixel.
- * @param {boolean} [props.dismissible=true] - Jika false, ESC & klik backdrop diabaikan.
- */
+// Membungkus native <dialog> agar bisa dikendalikan secara deklaratif lewat prop `open`.
+// Native dialog punya ESC handling dan focus trap bawaan — tidak perlu library tambahan.
+// `dismissible={false}` dipakai saat operasi sedang berjalan: mencegah user menutup modal
+// di tengah-tengah proses yang tidak bisa dibatalkan (misalnya saat delete pending).
 export default function Modal({
   open,
   onClose,

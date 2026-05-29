@@ -1,3 +1,4 @@
+// cspell:disable
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +17,7 @@ const TIPS = [
   'Cek pratinjau sebelum menyimpan untuk memastikan tampilan rapi.',
 ];
 
+// Layout dua kolom: label di kiri, input di kanan — konsisten dengan pola admin dashboard.
 function FormSection({ title, subtitle, children }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6 md:gap-8">
@@ -28,6 +30,8 @@ function FormSection({ title, subtitle, children }) {
   );
 }
 
+// Me-render tampilan kartu seperti yang akan muncul di halaman list.
+// Konten diupdate real-time saat user mengetik — nilainya dari watch() di parent.
 function PreviewCard({ name, price }) {
   return (
     <div className="mt-3 border border-ink-150 rounded-[10px] overflow-hidden">

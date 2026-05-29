@@ -1,3 +1,5 @@
+// React Compiler (babel-plugin-react-compiler) aktif untuk auto-memoization.
+// Proxy /api/* ke backend agar tidak ada CORS saat development.
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
